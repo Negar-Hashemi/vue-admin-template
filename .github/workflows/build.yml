@@ -29,13 +29,5 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Run tests and generate report
-        run: |
-          mkdir -p test-results
-          npm test -- --outputFile=test-results/results.json
-
-    - name: Upload test results
-      uses: actions/upload-artifact@v3
-      with:
-          name: test-results
-          path: test-results/results.json
+    - name: Run tests
+      run: npx jest test

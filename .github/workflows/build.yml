@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Testing on OS: ${{ matrix.os }} with Node.js version ${{ matrix.node-version }} attempt: ${{ matrix.attempt }}
+      - name: Testing on OS (${{ matrix.os }}) with Node.js (version ${{ matrix.node-version }}) attempt ${{ matrix.attempt }}
         run: |
           echo "Run attempt: ${{ matrix.attempt }}"
           npx jest

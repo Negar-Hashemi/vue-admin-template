@@ -16,6 +16,7 @@ jobs:
       matrix:
         os: [ubuntu-latest] #, macos-latest, windows-latest] # Operating systems to test
         node-version: [18] #14, 16, 18]                      # Node.js versions to test
+        attempt: [1, 2, 3, 4, 5]
 
     steps:
     - name: Checkout code
@@ -30,4 +31,6 @@ jobs:
       run: npm install
 
     - name: Run tests
-      run: npx jest test
+      run: 
+        echo "Run attempt: ${{ matrix.attempt }}"
+        npx jest test

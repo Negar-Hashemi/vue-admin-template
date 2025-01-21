@@ -13,10 +13,11 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest]#, macos-latest, windows-latest] # Operating systems to test
         node-version: [14]#, 16, 18]                      # Node.js versions to test
-        max_attempts: 5
+        attempt: [1, 2, 3, 4, 5]                        # Repeat tests 5 times
 
     steps:
       - name: Checkout code
@@ -30,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
+      - name: Run tests (Attempt ${{ matrix.attempt }})
         run: |
-          echo "Testing on OS: ${{ matrix.os }} with Node.js version ${{ matrix.node-version }}"
+          echo "Run attempt: ${{ matrix.attempt }}"
           npx jest

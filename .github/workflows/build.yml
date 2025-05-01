@@ -1,4 +1,4 @@
-name: Test on Multiple OS
+name: Test on Multiple OS, node and browsers
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  build:
+  node-tests:
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -17,7 +17,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest] # Operating systems to test
         node-version: [18, 20, 22]                      # Node.js versions to test
-        attempt: [1, 2, 3, 4, 5]                        # Repeat tests 5 times
+        attempt: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]        # Repeat tests 5 times
 
     steps:
       - name: Checkout code
@@ -37,3 +37,31 @@ jobs:
         run: |
           echo "Run attempt: ${{ matrix.attempt }}"
           npx jest test
+
+  browser-tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node-version: [18, 20, 22]
+        attempt: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        browser: [chrome-latest, firefox-latest, edge-latest, safari-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run browser-based tests
+        run: |
+          echo "Run attempt: ${{ matrix.attempt }}"
+          echo "Browser: ${{ matrix.browser }}"
+          npm run test -- --browser=${{ matrix.browser }}

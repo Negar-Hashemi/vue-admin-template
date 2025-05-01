@@ -64,4 +64,5 @@ jobs:
         run: |
           echo "Run attempt: ${{ matrix.attempt }}"
           echo "Browser: ${{ matrix.browser }}"
-          npm run test -- --browser=${{ matrix.browser }}
+          npx jest test -- --browser=${{ matrix.browser }}
+
